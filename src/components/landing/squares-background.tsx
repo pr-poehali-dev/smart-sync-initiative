@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react"
+import { useRef, useEffect } from "react"
 
 interface SquaresProps {
   direction?: "right" | "left" | "up" | "down" | "diagonal"
@@ -22,10 +22,7 @@ export function Squares({
   const numSquaresX = useRef<number>()
   const numSquaresY = useRef<number>()
   const gridOffset = useRef({ x: 0, y: 0 })
-  const [hoveredSquare, setHoveredSquare] = useState<{
-    x: number
-    y: number
-  } | null>(null)
+  const hoveredSquare = useRef<{ x: number; y: number } | null>(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -62,9 +59,9 @@ export function Squares({
           const squareY = y - (gridOffset.current.y % squareSize)
 
           if (
-            hoveredSquare &&
-            Math.floor((x - startX) / squareSize) === hoveredSquare.x &&
-            Math.floor((y - startY) / squareSize) === hoveredSquare.y
+            hoveredSquare.current &&
+            Math.floor((x - startX) / squareSize) === hoveredSquare.current.x &&
+            Math.floor((y - startY) / squareSize) === hoveredSquare.current.y
           ) {
             ctx.fillStyle = hoverFillColor
             ctx.fillRect(squareX, squareY, squareSize, squareSize)
@@ -137,11 +134,11 @@ export function Squares({
         (mouseY + gridOffset.current.y - startY) / squareSize,
       )
 
-      setHoveredSquare({ x: hoveredSquareX, y: hoveredSquareY })
+      hoveredSquare.current = { x: hoveredSquareX, y: hoveredSquareY }
     }
 
     const handleMouseLeave = () => {
-      setHoveredSquare(null)
+      hoveredSquare.current = null
     }
 
     // Event listeners
@@ -162,7 +159,7 @@ export function Squares({
         cancelAnimationFrame(requestRef.current)
       }
     }
-  }, [direction, speed, borderColor, hoverFillColor, hoveredSquare, squareSize])
+  }, [direction, speed, borderColor, hoverFillColor, squareSize])
 
   return (
     <canvas
