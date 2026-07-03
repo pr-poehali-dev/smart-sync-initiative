@@ -22,7 +22,7 @@ export default function Section({ id, title, subtitle, content, isActive, showBu
           </motion.div>
         )}
         <motion.h2
-          className="text-4xl md:text-6xl lg:text-[5rem] xl:text-[6rem] font-bold leading-[1.1] tracking-tight text-white"
+          className="text-4xl md:text-6xl lg:text-[5rem] xl:text-[6rem] font-extrabold leading-[1.1] tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]"
           initial={{ opacity: 0, y: 50 }}
           animate={isActive ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
